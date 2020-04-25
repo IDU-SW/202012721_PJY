@@ -1,0 +1,23 @@
+[
+    {
+        "id":0,
+        "title":"AFK 아레나",
+        "company":"릴리스 게임즈",
+        "platform":"안드로이드, iOS",
+        "synopsis":"AFK Arena is a casual action card game. Players can build up a personalized team and level up with the unique AFK Awards auto farming system. Join players all over the world in this journey of fantasy and prevent an ancient evil from destroying the realm of Esperia. "
+    },
+    {
+        "id":1,
+        "title":"쿠키런: 오븐브레이크",
+        "company":"데브시스터즈",
+        "platform":"안드로이드, iOS",
+        "synopsis":"국민 런게임 쿠키런!! 마녀의 오븐에서 탈출하는 쿠키들과 함께 모험을 떠나 볼까요? 사랑스러운 쿠키들과 오늘도 신나게 달려봐요!"
+    },
+    {
+        "id":2,
+        "title":"랜덤 다이스",
+        "company":"111%",
+        "platform":"안드로이드",
+        "synopsis":"다양한 특성의 주사위 타워들을 설치하여 몰려오는 적을 막는 타워 디펜스 게임입니다. 같은 숫자, 같은 종류의 주사위 타워끼리 합치면 한 단계 높은 주사위 타워가 생성됩니다! 하지만 합쳐진 주사위 타워는 랜덤으로 종류가 바뀔 수 있으니 주의하세요!"
+    }
+  ]
