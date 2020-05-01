@@ -45,10 +45,10 @@ class PhoneGame {
         });
     }
 
-    upPhoneGame(gameId, title, artist, genre, date) {
+    upPhoneGame(gameId, title, company, platform, synopsis) {
         return new Promise((resolve, reject) => {
             let id = Number(gameId);
-            let newGame = {id, title, artist, genre, date};
+            let newGame = {id, title, company, platform, synopsis};
             for (var game of this.phoneGames ) {
                 if ( game.id == id ) {
                     this.phoneGames.splice(id, 1, newGame); // id번의 내용 1개 삭제 후 newMusic의 내용 새로 추가
