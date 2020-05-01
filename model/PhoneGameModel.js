@@ -44,6 +44,34 @@ class PhoneGame {
             reject({msg:'Can not find game', code:404});
         });
     }
+
+    upPhoneGame(gameId, title, artist, genre, date) {
+        return new Promise((resolve, reject) => {
+            let id = Number(gameId);
+            let newGame = {id, title, artist, genre, date};
+            for (var game of this.phoneGames ) {
+                if ( game.id == id ) {
+                    this.phoneGames.splice(id, 1, newGame); // id번의 내용 1개 삭제 후 newMusic의 내용 새로 추가
+                    resolve(newGame);
+                    return;
+                }
+            }
+        });
+    }
+
+    delPhoneGame(id) {
+        return new Promise((resolve, reject) => {
+            for (var game of this.phoneGames ) {
+                if ( game.id == id ) {
+                    this.phoneGames.splice(id, 1);
+                    resolve(game);
+                    return;
+                }
+            }
+            reject({msg:'Can not find game!', code:404});
+        });
+    }
 }
+
 
 module.exports = new PhoneGame();

@@ -1,0 +1,21 @@
+<html>
+<head>
+   <meta charset="UTF-8" />
+    <title>EJS Example</title>
+</head>
+<body>
+    <h1><%= detail.title %> 수정하기</h1> 
+    <form action="/phonegames/edit" method="POST" >
+        <input type="hidden" name="id" value="<%= detail.id %>">
+<pre>
+title    : <input type="text" name="title" value="<%= detail.title %>" style="width:300px;"></br></br>
+company  : <input type="text" name="company" value="<%= detail.company %>" style="width:300px;"></br></br>
+platform : <input type="text" name="platform" value="<%= detail.platform %>" style="width:300px;"></br></br>
+synopsis : <input type="text" name="synopsis" value="<%= detail.synopsis %>" style="width:1000px;"></br>
+<p>
+<input type="submit" value="수정">  <input type="button" value="돌아가기" onclick="history.back(-1)">
+</p>
+</pre>
+    </form> 
+</body>
+</html>

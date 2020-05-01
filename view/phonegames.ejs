@@ -1,0 +1,19 @@
+<html>
+<head>
+   <meta charset="UTF-8" />
+    <title>EJS Phonegames</title>
+</head>
+<body>
+    <h1><%= count %>개의 모바일 게임 리스트</h1>
+    <p>
+        <input type="button" value="게임 추가!" onclick="location.href='/phonegame/add'">
+    </p>
+    <% phonegames.forEach(function(item) { %>
+    <h3><a href='/phonegames/<%= item.id %>'>ID : <%= item.id %></a></h3>
+    <ul>
+        <li>title : <%= item.title %>  </li>
+        <li>company : <%= item.company %>  </li>
+    </ul>
+    <% }) %>
+</body>
+</html>

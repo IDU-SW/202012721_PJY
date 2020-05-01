@@ -1,0 +1,21 @@
+<html>
+<head>
+   <meta charset="UTF-8" />
+    <title>EJS Example</title>
+</head>
+<body>
+    <h1><%= detail.title %> 자세히 살펴보기</h1>
+    <ul>
+        <li>company : <%= detail.company %>  </li>
+        <li>platform : <%= detail.platform %>  </li>
+        <li>synopsis : <%= detail.synopsis %>  </li>
+    </ul>
+    </br>
+
+    <form name="detail" method="post" action="/phonegames/delete">
+        <input type="hidden" name="id" value="<%= detail.id %>">
+        <input type="button" value="수정" onclick="location.href='/phonegame/detail/<%= detail.id %>'">&nbsp;
+        <input type="submit" value="삭제">
+    </form>  
+</body>
+</html>
