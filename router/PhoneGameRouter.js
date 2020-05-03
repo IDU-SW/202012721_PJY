@@ -3,11 +3,11 @@ const router = express.Router();
 const games = require('../model/PhoneGameModel');
 
 router.get('/phonegames', showPhoneGameList);
+router.get('/phonegames/add', addPhoneGameForm);
 router.get('/phonegames/:gameId', showPhoneGameDetail);
 router.post('/phonegames', addPhoneGame);
-router.get('/phonegame/add', addPhoneGameForm);
 router.post('/phonegames/delete', delPhoneGame);
-router.get('/phonegame/detail/:gameId', upPhoneGameForm);
+router.get('/phonegames/detail/:gameId', upPhoneGameForm);
 router.post('/phonegames/edit', upPhoneGame);
 module.exports = router;
 
