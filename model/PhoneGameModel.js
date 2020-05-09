@@ -1,3 +1,5 @@
+var pool = require('./dbConnection');
+
 const fs = require('fs');
 
 class PhoneGame {
@@ -6,70 +8,110 @@ class PhoneGame {
         this.phoneGames = JSON.parse(data)
     }
 
-    getPhoneGameList() {
-        if (this.phoneGames) {
-            return this.phoneGames;
+    //리스트 조회
+    getPhoneGameList = async() => {   
+        const sql = 'SELECT * from phonegames'
+        let conn;
+        try {
+            conn = await pool.getConnection();
+            const [rows, metadata] = await conn.query(sql);
+            conn.release();
+            return rows;
+        } catch (error) {
+            console.error(error);
+        } finally {
+            if ( conn ) conn.release();
         }
-        else {
-            return [];
+    }
+
+    getPhoneGameDetail = async(gameId) => {
+        const sql = 'SELECT * from phonegames where id = ?';
+        let conn;
+        try {
+            conn = await pool.getConnection();
+            const [rows, metadata] = await conn.query(sql, gameId);
+            conn.release();
+            console.log(rows);
+            return rows[0];
+        } catch (error) {
+            console.error(error);
+        } finally {
+            if ( conn ) conn.release();
         }
     }
 
-    addPhoneGame(title, company, platform, synopsis) {
-        return new Promise((resolve, reject) => {
-            let last = this.phoneGames[this.phoneGames.length - 1];
-            let id = last.id + 1;
+    addPhoneGame = async(title, company, platform, synopsis) => {
 
-            console.log(id);
-            console.log(title);
-            console.log(company);
-            console.log(platform);
-            console.log(synopsis);
+        console.log(title);
+        console.log(company);
+        console.log(platform);
+        console.log(synopsis);
 
-            let newGame = {id, title, company, platform, synopsis};
-            this.phoneGames.push(newGame);
-
-            resolve(newGame);
-        });
+        const data = [title, company, platform, synopsis];
+        const sql = 'insert into phonegames(title,company,platform,synopsis) values(?, ?, ?, ?)';
+        let conn;
+        try {
+            conn = await pool.getConnection();
+            const [rows, metadata] = await conn.query(sql, data);
+            conn.release();
+            console.log('rows',rows);
+            return rows[0];
+        } catch (error) {
+            console.error(error);
+            return -1;
+        } finally {
+            if ( conn ) conn.release();
+        }
     }
 
-    getPhoneGameDetail(gameId) {
-        return new Promise((resolve, reject) => {
-            for (var game of this.phoneGames ) {
-                if ( game.id == gameId ) {
-                    resolve(game);
-                    return;
-                }
-            }
-            reject({msg:'Can not find game', code:404});
-        });
+//    getPhoneGameDetail(gameId) {
+//        return new Promise((resolve, reject) => {
+//           for (var game of this.phoneGames ) {
+//                if ( game.id == gameId ) {
+//                    resolve(game);
+//                    return;
+//                }
+//            }
+//            reject({msg:'Can not find game', code:404});
+//        });
+//    }
+
+
+
+    upPhoneGame = async(gameId, title, company, platform, synopsis) => {
+        const data = [title, company, platform, synopsis, gameId];
+        const sql = 'update phonegames set title = ?, company = ?, platform = ?, synopsis = ? where id = ?';
+        let conn;
+        try {
+            conn = await pool.getConnection();
+            const [rows, metadata] = await conn.query(sql, data);
+            conn.release();
+            console.log('rows',rows);
+            return rows[0];
+        } catch (error) {
+            console.error(error);
+            return -1;
+        } finally {
+            if ( conn ) conn.release();
+        }
     }
 
-    upPhoneGame(gameId, title, company, platform, synopsis) {
-        return new Promise((resolve, reject) => {
-            let id = Number(gameId);
-            let newGame = {id, title, company, platform, synopsis};
-            for (var game of this.phoneGames ) {
-                if ( game.id == id ) {
-                    this.phoneGames.splice(id, 1, newGame); // id번의 내용 1개 삭제 후 newMusic의 내용 새로 추가
-                    resolve(newGame);
-                    return;
-                }
-            }
-        });
-    }
-
-    delPhoneGame(id) {
-        return new Promise((resolve, reject) => {
-            for (var game of this.phoneGames ) {
-                if ( game.id == id ) {
-                    this.phoneGames.splice(id, 1);
-                    resolve(game);
-                    return;
-                }
-            }
-            reject({msg:'Can not find game!', code:404});
-        });
+    delPhoneGame = async(id) => {
+        
+        const sql = 'delete from phonegames where id = ?';
+        let conn;
+        try {
+            conn = await pool.getConnection();
+            const [rows, metadata] = await conn.query(sql, id);
+            conn.release();
+            console.log('rows',rows);
+            return rows[0];
+        } catch (error) {
+            console.error(error);
+            return -1;
+        } finally {
+            if ( conn ) conn.release();
+        }
     }
 }
 

@@ -2,7 +2,12 @@ const express = require('express');
 const router = express.Router();
 const games = require('../model/PhoneGameModel');
 
-router.get('/phonegames', showPhoneGameList);
+//리스트보기
+router.get('/phonegames', async (req, res) => {
+    const data = await games.getPhoneGameList();
+    
+    res.render('phonegames', {phonegames:data, count:data.length});
+});
 router.get('/phonegames/add', addPhoneGameForm);
 router.get('/phonegames/:gameId', showPhoneGameDetail);
 router.post('/phonegames', addPhoneGame);
@@ -12,17 +17,17 @@ router.post('/phonegames/edit', upPhoneGame);
 module.exports = router;
 
 // 리스트보기
-function showPhoneGameList(req, res) {
-    const gameList = games.getPhoneGameList();
-    res.render('phonegames', {phonegames:gameList, count:gameList.length})
-}
+//function showPhoneGameList(req, res) {
+//    const data = games.getPhoneGameList();
+//    console.log('rows',data);
+//    res.render('phonegames', {phonegames:data, count:data.count})
+//}
 
 // 상세보기
 async function showPhoneGameDetail(req, res) {
     try {
         // 영화 상세 정보 Id
         const gameId = req.params.gameId;
-        console.log('gameId : ', gameId);
         const info = await games.getPhoneGameDetail(gameId);
 
         res.render('phonegamesDt', {detail:info});
@@ -41,7 +46,6 @@ function addPhoneGameForm(req, res) {
 // 추가
 async function addPhoneGame(req, res) {
     const title = req.body.title;
-    
 
     if (!title) {
         res.status(400).send({error:'title 누락'});
@@ -53,7 +57,10 @@ async function addPhoneGame(req, res) {
 
     try {
         const result = await games.addPhoneGame(title, company, platform, synopsis);
-        res.render('addComplete',{data:result});
+        if (result != -1)
+            res.render('addComplete');
+        else
+            res.render('error');
     }
     catch ( error ) {
         res.status(500).send(error.msg);
@@ -68,7 +75,10 @@ async function upPhoneGameForm(req, res) {
         console.log('gameId : ', gameId);
         const info = await games.getPhoneGameDetail(gameId);
 
-        res.render('phonegameUpdate', {detail:info});
+        if (info != -1)
+            res.render('phonegameUpdate', {detail:info});
+        else
+            res.render('error');
     }
     catch ( error ) {
         console.log('Can not find, 404');
@@ -91,8 +101,11 @@ async function upPhoneGame(req, res) {
     const synopsis = req.body.synopsis;
 
     try {
-        const result = await games.upPhoneGame(id, title, company, platform, synopsis);
-        res.render('upComplete',{data:result});
+        const result = await games.upPhoneGame(id, title, company, platform, synopsis);     
+        if (result != -1)
+            res.render('upComplete');
+        else
+            res.render('error');
     }
     catch ( error ) {
         res.status(500).send(error.msg);
@@ -104,7 +117,11 @@ async function delPhoneGame(req, res) {
     try {
         const id = req.body.id; // id 가져오기
         const result = await games.delPhoneGame(id);
-        res.render('delComplete');
+        
+        if (result != -1)
+            res.render('delComplete');
+        else
+            res.render('error');
     }
     catch ( error ) {
         res.status(400).send({error:'게임 삭제에 실패'});
