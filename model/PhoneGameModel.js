@@ -1,13 +1,47 @@
-var pool = require('./dbConnection');
-
+//var pool = require('./dbConnection');
+var sequelize = require('./dbConnection');
 const fs = require('fs');
 
-class PhoneGame {
+class Phonegames extends Sequelize.Model { }
+
+Phonegames.init({
+    id: Sequelize.INTEGER,
+    title: Sequelize.STRING(255),
+    company: Sequelize.STRING(255),
+    platform: Sequelize.STRING(255),
+    synopsis: Sequelize.STRING(1000),
+}, { tableName: 'Phonegames', timestamps: false, sequelize });
+
+class Phonegame_reply extends Sequelize.Model { }
+
+Phonegame_reply.init({
+    phonegame_id: Sequelize.INTEGER,
+    reply: Sequelize.STRING(100),
+
+}, { tableName: 'Phonegame_reply', timestamps: false, sequelize });
+
+class Phonegame {
     constructor() {
-        const data = fs.readFileSync('./model/data.json');
-        this.phoneGames = JSON.parse(data)
+        try {
+            this.prepareModel();
+        } catch (error) {
+            console.error(error);
+        }
     }
 
+    async prepareModel() {
+        try {
+            await Phonegames.sync({ force: true });
+            await Phonegame_reply.sync({ force: true });
+            Phonegames.hasMany(Phonegame_reply, { foreignKey: 'phonegame_id' });
+            // sequelize.close();
+        }
+        catch (error) {
+            console.log('country.sync Error ', error);
+        }
+    }
+
+    // -------------------------------------------------------- sequelize 적용 예정 ------------------------------------
     //리스트 조회
     getPhoneGameList = async() => {   
         const sql = 'SELECT * from phonegames'
