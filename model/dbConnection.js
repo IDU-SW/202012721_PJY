@@ -1,4 +1,5 @@
 const mysql = require('mysql2');
+const Sequelize = require('sequelize');
 const sequelize = new Sequelize('hellojs', 'root', 'cometrue', {
    dialect: 'mysql', host: 'localhost',
    pool: {

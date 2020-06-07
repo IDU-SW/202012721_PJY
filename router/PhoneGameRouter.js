@@ -1,4 +1,5 @@
 const express = require('express');
+const session = require('express-session');
 const router = express.Router();
 const games = require('../model/PhoneGameModel');
 
@@ -9,11 +10,15 @@ router.get('/phonegames', async (req, res) => {
     res.render('phonegames', {phonegames:data, count:data.length});
 });
 router.get('/phonegames/add', addPhoneGameForm);
+router.get('/phonegames/login', loginForm);
+router.get('/phonegames/logout', logout);
 router.get('/phonegames/:gameId', showPhoneGameDetail);
 router.post('/phonegames', addPhoneGame);
 router.post('/phonegames/delete', delPhoneGame);
+router.post('/phonegames/login', login);
 router.get('/phonegames/detail/:gameId', upPhoneGameForm);
 router.post('/phonegames/edit', upPhoneGame);
+
 module.exports = router;
 
 // 리스트보기
@@ -125,5 +130,32 @@ async function delPhoneGame(req, res) {
     }
     catch ( error ) {
         res.status(400).send({error:'게임 삭제에 실패'});
+    }
+}
+
+function loginForm(req, res) {
+    res.render('login');
+}
+
+async function login(req, res) {
+    if ( id, pw === user.id, user.pw ) {
+        req.session.userid = id;
+        res.sendStatus(200);
+        res.render('loginComplete');
+    }
+}
+
+async function logout(req, res){
+    session = req.session;
+    if(session.id){
+        req.session.destrory(function(err){
+            if(err){
+                console.log(err);
+            }else{
+                res.redirect('/');
+            }
+        })
+    }else{
+        res.redirect('/');
     }
 }

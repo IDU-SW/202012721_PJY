@@ -1,4 +1,5 @@
 //var pool = require('./dbConnection');
+const Sequelize = require('sequelize');
 var sequelize = require('./dbConnection');
 const fs = require('fs');
 
