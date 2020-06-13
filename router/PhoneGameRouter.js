@@ -3,6 +3,12 @@ const session = require('express-session');
 const router = express.Router();
 const games = require('../model/PhoneGameModel');
 
+const user = {
+    id : 'id',
+    password : '1234',
+    name : 'Name'
+ }
+
 //리스트보기
 router.get('/phonegames', async (req, res) => {
     const data = await games.getPhoneGameList();
