@@ -1,12 +1,17 @@
 const express = require('express');
-const session = require('express-session');
+//const session = require('express-session');
 const router = express.Router();
 const games = require('../model/PhoneGameModel');
 
-const user = {
-    id : 'id',
+const user1 = {
+    id : 'id1',
     password : '1234',
-    name : 'Name'
+    name : 'user1'
+ }
+ const user = {
+     id : 'id2',
+     password : '4321',
+     name : 'user2'
  }
 
 //리스트보기

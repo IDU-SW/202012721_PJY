@@ -12,6 +12,10 @@ const sequelize = new Sequelize('hellojs', 'root', 'cometrue', {
    }
 });
 
+sequelize.sync().then( () =>{
+   console.log("DB연결 성공");
+});
+
 module.exports = sequelize;
 
 /*

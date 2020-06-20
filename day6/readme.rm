@@ -1,0 +1,11 @@
+ejs방식입니다.
+
+npm install ejs 해주세요~
+
+-user 1-
+id : id1
+pw : 1234
+
+-user 2-
+id : id2
+pw : 4321

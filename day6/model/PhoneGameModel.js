@@ -6,7 +6,11 @@ const fs = require('fs');
 class Phonegames extends Sequelize.Model { }
 
 Phonegames.init({
-    id: Sequelize.INTEGER,
+    id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
     title: Sequelize.STRING(255),
     company: Sequelize.STRING(255),
     platform: Sequelize.STRING(255),
@@ -41,10 +45,19 @@ class Phonegame {
             console.log('country.sync Error ', error);
         }
     }
+}
 
-    // -------------------------------------------------------- sequelize 적용 예정 ------------------------------------
-    //리스트 조회
-    getPhoneGameList = async() => {   
+//리스트 조회
+function getPhonegameList() {
+    Phonegame.findAll({})
+    .then( results => {
+        for (var item of results) {
+            
+        }
+    })
+}
+/*
+   getPhoneGameList = async() => {   
         const sql = 'SELECT * from phonegames'
         let conn;
         try {
@@ -58,7 +71,7 @@ class Phonegame {
             if ( conn ) conn.release();
         }
     }
-
+*/
     getPhoneGameDetail = async(gameId) => {
         const sql = 'SELECT * from phonegames where id = ?';
         let conn;
@@ -75,43 +88,23 @@ class Phonegame {
         }
     }
 
-    addPhoneGame = async(title, company, platform, synopsis) => {
-
-        console.log(title);
-        console.log(company);
-        console.log(platform);
-        console.log(synopsis);
-
-        const data = [title, company, platform, synopsis];
-        const sql = 'insert into phonegames(title,company,platform,synopsis) values(?, ?, ?, ?)';
-        let conn;
-        try {
-            conn = await pool.getConnection();
-            const [rows, metadata] = await conn.query(sql, data);
-            conn.release();
-            console.log('rows',rows);
-            return rows[0];
-        } catch (error) {
-            console.error(error);
-            return -1;
-        } finally {
-            if ( conn ) conn.release();
-        }
+// 추가
+async function addPhoneGame(getTitle, getCompany, getPlatform, getSynopsis){
+    try {
+        const ret = await Movie.create({
+            title: getTitle,
+            company: getCompany,
+            platform: getPlatform,
+            synopsis: getSynopsis
+        }, {logging: false});
+        const newData = ret.dataValues;
+        console.log(newData);
+        console.log('Create success');
     }
-
-//    getPhoneGameDetail(gameId) {
-//        return new Promise((resolve, reject) => {
-//           for (var game of this.phoneGames ) {
-//                if ( game.id == gameId ) {
-//                    resolve(game);
-//                    return;
-//                }
-//            }
-//            reject({msg:'Can not find game', code:404});
-//        });
-//    }
-
-
+    catch (error) {
+        console.log('Error : ', error);
+    }
+}
 
     upPhoneGame = async(gameId, title, company, platform, synopsis) => {
         const data = [title, company, platform, synopsis, gameId];
@@ -148,7 +141,7 @@ class Phonegame {
             if ( conn ) conn.release();
         }
     }
-}
 
 
-module.exports = new PhoneGame();
+
+module.exports = new Phonegame();
