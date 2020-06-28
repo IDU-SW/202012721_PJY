@@ -4,14 +4,9 @@
     <title>EJS Phonegames</title>
 </head>
 <body>
-    <h1><%= count %>개의 모바일 게임 리스트</h1>
+    <h1>모바일 게임 리스트</h1>
     <p>
-        <% if(username){ %>
-            <input type="button" value="로그아웃" onclick="location.href='/phonegames/logout'">                
-            <input type="button" value="게임 추가!" onclick="location.href='/phonegames/add'">\
-        <% }else{ %>
-        <input type="button" value="로그인" onclick="location.href='/phonegames/login'">
-        <% } %>
+    <input type="button" value="게임 추가!" onclick="location.href='/phonegames/add'">
     </p>
     <% phonegames.forEach(function(item) { %>
     <h3><a href='/phonegames/<%= item.id %>'>ID : <%= item.id %></a></h3>
